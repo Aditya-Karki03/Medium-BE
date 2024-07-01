@@ -117,7 +117,5 @@ signing.post('/signin',async (c)=>{
     }
 })
 
-//postgresql://neondb_owner:er7OUVWAI3jv@ep-steep-night-a5384o21.us-east-2.aws.neon.tech/neondb?sslmode=require
-//DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiMWM0Yzc5OTctM2Q1Mi00NjZkLThmZjctZjRhMmZkMjdlNzViIiwidGVuYW50X2lkIjoiYzRiNGQ2MDNmZDRmZjJmMWU4YzVkZTEyMjY4ZTAyOWEyMTAyZWM0YmQ3NTE2NjRhMTQzOGQ3Y2NkOGIzNTVhZiIsImludGVybmFsX3NlY3JldCI6ImM4ZDRiYzM3LWI0MTgtNDJkMy1iNzE0LWYzMjIxNzliMGU2MSJ9.wLN_KaRRZdyBx6Hx163YtpBh9dZtIf1_hPBaF4d_9fo"
 
 export default signing;
