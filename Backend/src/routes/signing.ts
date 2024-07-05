@@ -1,8 +1,10 @@
 import { Hono } from "hono";
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import { decode, sign, verify } from 'hono/jwt'
-import zod from 'zod'
+import {  sign } from 'hono/jwt'
+import { signUpSchema } from '@aditya_karki_03/medium-common-folder'
+import { signInSchema } from '@aditya_karki_03/medium-common-folder'
+
 
 const signing=new Hono<{
     Bindings:{
@@ -11,17 +13,7 @@ const signing=new Hono<{
     }
 }>();
 
-const signUpSchema=zod.object({
-    firstname:zod.string(),
-    lastname:zod.string().optional(),
-    email:zod.string().email({message:'Invalid Email address'}),
-    password:zod.string().min(7,{message:'Minimum length should be 7 with special characters'})
-})
 
-const signInSchema=zod.object({
-    email:zod.string(),
-    password:zod.string()
-})
 
 signing.post('/signup',async(c)=>{
     //check whether the email and the password are valid

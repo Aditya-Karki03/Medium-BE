@@ -1,7 +1,9 @@
 import { Hono } from "hono";
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import {  jwt, verify } from 'hono/jwt'
+import { verify } from 'hono/jwt'
+import { blogCreationSchema } from '@aditya_karki_03/medium-common-folder'
+import { blogUpdationSchema } from '@aditya_karki_03/medium-common-folder'
 
 const blogRouter=new Hono<{
     Bindings:{
@@ -29,8 +31,23 @@ blogRouter.use('/*',async(c,next)=>{
 })
 
 blogRouter.post('/',async (c)=>{
-
+    
     const{title,content}=await c.req.json();
+
+   try {
+        const {success}=blogCreationSchema.safeParse({
+            title,
+            content
+        })
+        if(!success){
+            c.status(411);
+            return c.text('Unable to post the blog!! Please try again!!')
+        }
+   } catch (error) {
+        c.status(411);
+        return c.text('Error while posting! Please try again!!')
+   }
+
     const userId=c.get('userId');
 
     const prisma=new PrismaClient({
@@ -58,6 +75,21 @@ blogRouter.post('/',async (c)=>{
 blogRouter.put('/',async(c)=>{
     //id of the blog will come into the post request
     const{id,title,content}= await c.req.json();
+
+    try {
+        const {success}=blogUpdationSchema.safeParse({
+            id,
+            title,
+            content
+        })
+        if(!success){
+            c.status(411);
+            return c.text('Unable to update the blog!! Please try again!!')
+        }
+    } catch (error) {
+        c.status(411);
+        return c.text('Unable to update the text!! Please try again!!')
+    }
 
     const prisma=new PrismaClient({
         datasourceUrl:c.env.DATABASE_URL
