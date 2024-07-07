@@ -1,0 +1,1 @@
+export const BACKEND_URL:string='https://medium-blog.adityakarki201.workers.dev/'

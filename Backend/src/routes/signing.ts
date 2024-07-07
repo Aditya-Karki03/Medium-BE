@@ -31,12 +31,16 @@ signing.post('/signup',async(c)=>{
             password
         })
        if(!valid.success){
+            c.status(411);
             return c.json({
                 messge:'Wrong input!! Please try again'
             })
        }
     } catch (error) {
-        console.log(error)
+        c.status(411);
+            return c.json({
+                messge:'Unkown Error!! Please try again'
+            })
     }
 
     //inserting data into db using Prisma ORM

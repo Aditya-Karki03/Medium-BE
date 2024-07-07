@@ -16,6 +16,10 @@ const routes=createBrowserRouter([
     element:<Signup/>
   },
   {
+    path:'/signin',
+    element:<Signin/>
+  },
+  {
     path:'/blog/:id',
     element:<Blogs/>
   }
