@@ -5,6 +5,7 @@ import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import Signin from './pages/Signin.tsx'
 import Signup from './pages/Signup.tsx'
 import Blogs from './pages/Blogs.tsx'
+import Blog from './pages/Blog.tsx'
 
 const routes=createBrowserRouter([
   {
@@ -20,8 +21,12 @@ const routes=createBrowserRouter([
     element:<Signin/>
   },
   {
-    path:'/blog/:id',
+    path:'/blog',
     element:<Blogs/>
+  },
+  {
+    path:'/blog/:id',
+    element:<Blog/>
   }
 ])
 

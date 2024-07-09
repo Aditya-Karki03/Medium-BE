@@ -43,7 +43,7 @@ export default function Input({type}:typeOfProps){
                 })
                 toast.update(id, { render: "All is good", type: "success", isLoading: false,autoClose: 5000 });
                 localStorage.setItem('token',response.data)
-                navigate('/blog/1')
+                navigate('/blog')
             } catch (error) {
                 //alert user with the error by 'request failed'
                 toast.update(id, { render: " Please try Again!", type: "error", isLoading: false,autoClose: 5000  });                    
@@ -75,7 +75,7 @@ export default function Input({type}:typeOfProps){
                 console.log(response)
                 toast.update(id, { render: "All is good", type: "success", isLoading: false,autoClose: 5000});
                 localStorage.setItem('token',response.data)
-                navigate('/blog/1')
+                navigate('/blog')
                 
             } catch (error) {
                 //alert user with the error by 'request failed'
