@@ -32,7 +32,7 @@ blogRouter.use('/*',async(c,next)=>{
 
 blogRouter.post('/',async (c)=>{
     
-    const{title,content}=await c.req.json();
+    const{title,content,date,published}=await c.req.json();
 
    try {
         const {success}=blogCreationSchema.safeParse({
@@ -60,6 +60,8 @@ blogRouter.post('/',async (c)=>{
             data:{
                 title,
                 content,
+                published,
+                date,
                 authorId:Number(userId) //it will be passed from the universal middleware
             }
         })

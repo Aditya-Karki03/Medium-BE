@@ -6,6 +6,7 @@ import Signin from './pages/Signin.tsx'
 import Signup from './pages/Signup.tsx'
 import Blogs from './pages/Blogs.tsx'
 import Blog from './pages/Blog.tsx'
+import BlogPublisher from './pages/BlogPublisher.tsx'
 
 const routes=createBrowserRouter([
   {
@@ -21,13 +22,18 @@ const routes=createBrowserRouter([
     element:<Signin/>
   },
   {
-    path:'/blog',
-    element:<Blogs/>
+    path:'/blogs/bulk',
+    element:<Blogs/>,
+    
+  },
+  {
+    path:'/blogs/createBlog',
+    element:<BlogPublisher/>
   },
   {
     path:'/blog/:id',
     element:<Blog/>
-  }
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
