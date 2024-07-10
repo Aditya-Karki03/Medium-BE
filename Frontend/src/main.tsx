@@ -7,6 +7,7 @@ import Signup from './pages/Signup.tsx'
 import Blogs from './pages/Blogs.tsx'
 import Blog from './pages/Blog.tsx'
 import BlogPublisher from './pages/BlogPublisher.tsx'
+import FullBlog from './Components/FullBlog.tsx'
 
 const routes=createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const routes=createBrowserRouter([
   {
     path:'/blogs/createBlog',
     element:<BlogPublisher/>
+  },
+  {
+    path:'/blogs/fullblog',
+    element:<FullBlog/>
   },
   {
     path:'/blog/:id',
