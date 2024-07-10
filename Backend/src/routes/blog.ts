@@ -129,13 +129,15 @@ blogRouter.get('/bulk',async(c)=>{
                 title:true,
                 content:true,
                 date:true,
-                published:true,
                 author:{
                     select:{
                         firstname:true,
                         lastname:true
                     }
-                }
+                },
+            },
+            where:{
+                published:true,
             }
         });
         return c.json({
