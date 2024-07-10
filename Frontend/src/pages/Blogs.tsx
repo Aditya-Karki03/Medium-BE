@@ -1,17 +1,40 @@
 import { Outlet } from "react-router-dom"
 import AppBar from "../Components/AppBar"
 import BlogCard from "../Components/BlogCard"
+import UseBlogImporter from "../Hooks/UseBlogImporter"
+import Skeleton from "../Components/Skeleton";
+
+interface BlogType{
+    
+            "id": string,
+            "title": string,
+            "content": string,
+            "date": string,
+            "author": {
+                "firstname": string,
+                "lastname": string
+            }
+        }
+  
 
 export default function Blogs(){
+    const{loading,blogs}=UseBlogImporter();
+    // console.log(blogs)
+    if(loading){
+        return(
+            <Skeleton/>
+        )
+    }
     return(
         <div className="">
             <AppBar publishABlog={true}/>
-            <Outlet/>
-            <BlogCard firstname="Aditya" lastname="Karki" date="Dec 3,2023" title="How an Ugly Single Page Website" content="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quasi commodi animi totam amet, accusantium quis tenetur, dicta qui, tempore vel laboriosam ut repudiandae repellat maxime autem perspiciatis officiis hic ducimus!"/>
-            <BlogCard firstname="Aditya" lastname="Karki" date="Dec 3,2023" title="How an Ugly Single Page Website" content="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quasi commodi animi totam amet, accusantium quis tenetur, dicta qui, tempore vel laboriosam ut repudiandae repellat maxime autem perspiciatis officiis hic ducimus!"/>
-            <BlogCard firstname="Aditya" lastname="Karki" date="Dec 3,2023" title="How an Ugly Single Page Website" content="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quasi commodi animi totam amet, accusantium quis tenetur, dicta qui, tempore vel laboriosam ut repudiandae repellat maxime autem perspiciatis officiis hic ducimus!"/>
-            <BlogCard firstname="Aditya" lastname="Karki" date="Dec 3,2023" title="How an Ugly Single Page Website" content="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quasi commodi animi totam amet, accusantium quis tenetur, dicta qui, tempore vel laboriosam ut repudiandae repellat maxime autem perspiciatis officiis hic ducimus!"/>
-            <BlogCard firstname="Aditya" lastname="Karki" date="Dec 3,2023" title="How an Ugly Single Page Website" content="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quasi commodi animi totam amet, accusantium quis tenetur, dicta qui, tempore vel laboriosam ut repudiandae repellat maxime autem perspiciatis officiis hic ducimus!"/>
+            {
+                blogs && blogs.map((blog:BlogType)=>
+                  <BlogCard key={blog.id} firstname={blog.author.firstname} lastname={blog.author.lastname} date={blog.date} title={blog.title} content={blog.content}/>
+                )
+            }
+           
+            
         </div>
     )
 }
