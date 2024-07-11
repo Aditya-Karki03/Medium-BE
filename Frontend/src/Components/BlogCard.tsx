@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 
 interface PropsTypes{
+    id:string,
     firstname:string,
     lastname:string,
     date:string,
@@ -8,12 +9,12 @@ interface PropsTypes{
     content:string,
 }
 
-export default function BlogCard({firstname,lastname,date,title,content}:PropsTypes){
+export default function BlogCard({id,firstname,lastname,date,title,content}:PropsTypes){
     //need name of the blog writer
     return(
-        <Link to={'/blogs/fullblog'}>
+        <Link to={`/blogs/fullblog/${id}`}>
             <div className="flex justify-center mt-16 cursor-pointer px-4 ">
-                <div className="flex flex-col border-b-2 pb-7">
+                <div className="w-[700px] flex flex-col border-b-2 pb-7">
                     <div className="flex items-center ">
                             <div className="h-10 w-10 rounded-full cursor-pointer border flex justify-center items-center">{`${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`}</div>
                             <div className="h-1 w-1 rounded-full bg-black mx-2"></div>

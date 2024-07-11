@@ -4,7 +4,7 @@ import BlogCard from "../Components/BlogCard"
 import UseBlogImporter from "../Hooks/UseBlogImporter"
 import Skeleton from "../Components/Skeleton";
 
-interface BlogType{
+export interface BlogType{
     
             "id": string,
             "title": string,
@@ -30,7 +30,7 @@ export default function Blogs(){
             <AppBar publishABlog={true}/>
             {
                 blogs && blogs.map((blog:BlogType)=>
-                  <BlogCard key={blog.id} firstname={blog.author.firstname} lastname={blog.author.lastname} date={blog.date} title={blog.title} content={blog.content}/>
+                  <BlogCard key={blog.id} id={blog.id} firstname={blog.author.firstname} lastname={blog.author.lastname} date={blog.date} title={blog.title} content={blog.content}/>
                 )
             }
            

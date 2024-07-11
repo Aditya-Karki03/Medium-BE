@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
 import './index.css'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import Signin from './pages/Signin.tsx'
@@ -8,6 +9,7 @@ import Blogs from './pages/Blogs.tsx'
 import Blog from './pages/Blog.tsx'
 import BlogPublisher from './pages/BlogPublisher.tsx'
 import FullBlog from './Components/FullBlog.tsx'
+import appStore from './utils/appstore.ts'
 
 const routes=createBrowserRouter([
   {
@@ -32,7 +34,7 @@ const routes=createBrowserRouter([
     element:<BlogPublisher/>
   },
   {
-    path:'/blogs/fullblog',
+    path:'/blogs/fullblog/:id',
     element:<FullBlog/>
   },
   {
@@ -43,6 +45,8 @@ const routes=createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-      <RouterProvider router={routes}/>
+      {/* <Provider store={appStore}> */}
+        <RouterProvider router={routes}/>
+      {/* </Provider> */}
   </React.StrictMode>,
 )
