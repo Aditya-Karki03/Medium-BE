@@ -45,8 +45,8 @@ const routes=createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-      {/* <Provider store={appStore}> */}
+      <Provider store={appStore}>
         <RouterProvider router={routes}/>
-      {/* </Provider> */}
+      </Provider>
   </React.StrictMode>,
 )

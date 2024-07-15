@@ -1,8 +1,10 @@
-import { Outlet } from "react-router-dom"
+
 import AppBar from "../Components/AppBar"
 import BlogCard from "../Components/BlogCard"
 import UseBlogImporter from "../Hooks/UseBlogImporter"
 import Skeleton from "../Components/Skeleton";
+
+// import { addBlog } from "../utils/blogSlice";
 
 export interface BlogType{
     
@@ -19,12 +21,17 @@ export interface BlogType{
 
 export default function Blogs(){
     const{loading,blogs}=UseBlogImporter();
+    
+    // if(!loading){
+        
+    // }
     // console.log(blogs)
     if(loading){
         return(
             <Skeleton/>
         )
     }
+    
     return(
         <div className="">
             <AppBar publishABlog={true}/>
