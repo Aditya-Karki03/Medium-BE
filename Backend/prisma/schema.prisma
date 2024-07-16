@@ -20,6 +20,7 @@ model User{
   email String @unique
   password String
   posts Post[]
+  likes LikedPost[]
 }
 
 model Post{
@@ -30,5 +31,15 @@ model Post{
   published Boolean @default(false)
   author User @relation(fields: [authorId], references: [id])
   authorId Int
+  NumberOfLikes Int @default(0)
+  likes LikedPost[]
+}
 
+model LikedPost{
+  id Int @id @default(autoincrement())
+  likedByAuthor User @relation(fields: [LikedById], references: [id])
+  LikedById Int
+  LikesOnWhichPost Post @relation(fields:[PostId],references: [id])
+  PostId Int
+  @@unique([LikedById,PostId])
 }

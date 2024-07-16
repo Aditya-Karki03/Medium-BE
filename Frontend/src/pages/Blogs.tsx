@@ -13,14 +13,21 @@ export interface BlogType{
             "content": string,
             "date": string,
             "author": {
+                "id":string
                 "firstname": string,
                 "lastname": string
             }
+            "likes":[
+                {
+                    LikedById:string
+                }
+            ]
         }
   
 
 export default function Blogs(){
     const{loading,blogs}=UseBlogImporter();
+  
     
     // if(!loading){
         
@@ -31,13 +38,14 @@ export default function Blogs(){
             <Skeleton/>
         )
     }
+
     
     return(
         <div className="">
             <AppBar publishABlog={true}/>
             {
                 blogs && blogs.map((blog:BlogType)=>
-                  <BlogCard key={blog.id} id={blog.id} firstname={blog.author.firstname} lastname={blog.author.lastname} date={blog.date} title={blog.title} content={blog.content}/>
+                  <BlogCard key={blog.id}  authorId={blog.author.id} id={blog.id} firstname={blog.author.firstname} lastname={blog.author.lastname} date={blog.date} title={blog.title} content={blog.content}/>
                 )
             }
            

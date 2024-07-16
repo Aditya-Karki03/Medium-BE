@@ -19,6 +19,7 @@ blogRouter.use('/*',async(c,next)=>{
     //verify jwt and pass the authorId down the line
     const token=c.req.header('authorization') || "";
     const user= await verify(token,c.env.SECRET_KEY)
+    console.log(user)
     if(user){
         const userData:string=JSON.stringify(user.id) ;
         console.log(userData)
@@ -116,11 +117,76 @@ blogRouter.put('/',async(c)=>{
     }
 })
 
+blogRouter.post('/likes',async(c)=>{
+    const prisma = new PrismaClient({
+        datasourceUrl:c.env.DATABASE_URL
+    }).$extends(withAccelerate())
+    const{likeColor,postId,authorId}=await c.req.json()
+    console.log(`${postId} ${authorId}`)
+    try {
+       
+            const userWithLikeOnSamePostExist=await prisma.likedPost.findFirst({
+                where:{
+                    PostId:Number(postId),
+                    LikedById:Number(authorId)
+                }
+            })
+
+            if(userWithLikeOnSamePostExist){
+                const deleteLike=await prisma.likedPost.delete({
+                    where:{
+                        id:userWithLikeOnSamePostExist.id
+                    }
+                })
+                await prisma.post.update({
+                    where:{
+                        id:Number(userWithLikeOnSamePostExist.id),
+                    },
+                    data:{
+                        NumberOfLikes:{
+                            decrement:1
+                        }
+                    }
+                })
+            }
+            else{
+                await prisma.likedPost.create({
+                    data:{
+                        LikedById:Number(authorId),
+                        PostId:Number(postId)
+                    }
+                })
+                await prisma.post.update({
+                    where:{
+                        id:Number(postId)
+                    },
+                    data:{
+                        NumberOfLikes:{
+                            increment:1
+                        }
+                    }
+                })
+            }
+           
+        return c.json({
+            msg:"Post has been successfully liked"
+        })
+    } catch (error) {
+        console.log('Hello from the error')
+        c.status(411);
+        return c.json({
+            msg:"Could not like post! Please try again"
+        })
+    }
+})
+
 //Better to add pagination to the below route
 blogRouter.get('/bulk',async(c)=>{
     const prisma=new PrismaClient({
         datasourceUrl:c.env.DATABASE_URL
     }).$extends(withAccelerate())
+
+    const userId=c.get('userId')
 
     try {
         const allData=await prisma.post.findMany({
@@ -129,19 +195,34 @@ blogRouter.get('/bulk',async(c)=>{
                 title:true,
                 content:true,
                 date:true,
+                NumberOfLikes:true,
                 author:{
                     select:{
+                        id:true,
                         firstname:true,
                         lastname:true
                     }
                 },
+                likes:{
+                    select:{
+                        LikedById:true
+                    }
+                }
             },
             where:{
                 published:true,
             }
         });
+
+            const allPostLikedByUser=await prisma.likedPost.findMany({
+                where:{
+                    LikedById:Number(userId)
+                }
+            })
+        
         return c.json({
-            data:allData
+            data:allData,
+            allPostLikedByUser
         })
     } catch (error) {
         c.status(404);

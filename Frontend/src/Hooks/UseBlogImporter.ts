@@ -9,7 +9,7 @@ export default function UseBlogImporter(){
     const[blogs,setBlogs]=useState([])
     const dispatch=useDispatch()
 
-    const start=Date.now();
+   
     useEffect(()=>{
         axios.get(`${BACKEND_URL}api/v1/user/blog/bulk`,{
             headers:{
@@ -17,7 +17,6 @@ export default function UseBlogImporter(){
             }
         })
         .then((res)=>{
-            // console.log(Math.floor((Date.now()-start)/1000))
             setBlogs(res.data.data)
             setLoading(false)
             dispatch(addBlog(res.data.data))
