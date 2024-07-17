@@ -182,13 +182,67 @@ blogRouter.post('/likes',async(c)=>{
     }
 })
 
+blogRouter.post('/bookmarks',async(c)=>{
+    const prisma=new PrismaClient({
+        datasourceUrl:c.env.DATABASE_URL
+    }).$extends(withAccelerate())
+    
+    const{authorId,postId}=await c.req.json();
+    try {
+        const UserHasAlreadyBookMarkedPost=await prisma.bookMarkedPost.findFirst({
+            where:{
+                BookMarkerId:Number(authorId),
+                BookMarkedPostId:Number(postId)
+            }
+        })
+        if(UserHasAlreadyBookMarkedPost){
+            const deleteBookMarkedPost=await prisma.bookMarkedPost.delete({
+                where:{
+                    id:Number(UserHasAlreadyBookMarkedPost.id)
+                }
+            })
+            const updateBookMarkPost=await prisma.post.update({
+                where:{
+                    id:Number(UserHasAlreadyBookMarkedPost.BookMarkedPostId)
+                },
+                data:{
+                    bookmarkedByCurrentUser:false
+                }
+                
+            })
+        }else{
+            const createBookMarkedPost=await prisma.bookMarkedPost.create({
+                data:{
+                    BookMarkerId:Number(authorId),
+                    BookMarkedPostId:Number(postId)
+                }
+            })
+            const updateBookMarkPost=await prisma.post.update({
+                where:{
+                    id:createBookMarkedPost.BookMarkedPostId
+                },
+                data:{
+                    bookmarkedByCurrentUser:true
+                }
+            })
+        }
+        return c.json({
+            msg:'Successfully Bookmarked!!'
+        })
+    } catch (error) {
+        return c.json({
+            msg:'Bookmarking Failed!! Please try again!'
+        })
+    }
+})
+
 //Better to add pagination to the below route
 blogRouter.get('/bulk',async(c)=>{
     const prisma=new PrismaClient({
         datasourceUrl:c.env.DATABASE_URL
     }).$extends(withAccelerate())
 
-    const userId=c.get('userId')
+    
 
     try {
         const allData=await prisma.post.findMany({
@@ -198,6 +252,7 @@ blogRouter.get('/bulk',async(c)=>{
                 content:true,
                 date:true,
                 likedByCurrentUser:true,
+                bookmarkedByCurrentUser:true,
                 NumberOfLikes:true,
                 author:{
                     select:{
@@ -217,15 +272,10 @@ blogRouter.get('/bulk',async(c)=>{
             }
         });
 
-            const allPostLikedByUser=await prisma.likedPost.findMany({
-                where:{
-                    LikedById:Number(userId)
-                }
-            })
+            
         
         return c.json({
-            data:allData,
-            allPostLikedByUser
+            data:allData
         })
     } catch (error) {
         c.status(404);

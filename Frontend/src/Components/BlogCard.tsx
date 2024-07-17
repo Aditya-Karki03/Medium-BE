@@ -1,30 +1,23 @@
 import { Link } from "react-router-dom"
 import HeartAndBookmark from "./HeartAndBookmark";
-import UseLikeImporter from "../Hooks/UseLikeImporter";
 
 
 interface PropsTypes{
     id:string,
     authorId:string,
     CurrentUserHasLiked:boolean,
+    CurrentUserBookMarkedPost:boolean,
     firstname:string,
     lastname:string,
     date:string,
     title:string,
     content:string,
 }
-interface likeType{
-    id:string,
-    LikedById:string,
-    PostId:string
-}
 
-export default function BlogCard({id,authorId,CurrentUserHasLiked,firstname,lastname,date,title,content}:PropsTypes){
-    //need name of the blog writer
 
-    const {likes}=UseLikeImporter()
-    // console.log(CurrentUserHasLiked)
-
+export default function BlogCard({id,authorId,CurrentUserHasLiked,CurrentUserBookMarkedPost,firstname,lastname,date,title,content}:PropsTypes){
+    
+ 
     return(
             <div  className="flex justify-center  items-center">
                 <Link  to={`/blogs/fullblog/${id}`}>
@@ -44,7 +37,7 @@ export default function BlogCard({id,authorId,CurrentUserHasLiked,firstname,last
                 
                     </div>
                  </Link>
-                 <HeartAndBookmark userHasLiked={CurrentUserHasLiked} id={id} authorId={authorId}/>       
+                 <HeartAndBookmark userHasLiked={CurrentUserHasLiked} userHasBookMarked={CurrentUserBookMarkedPost} id={id} authorId={authorId}/>       
 
             </div>
             )

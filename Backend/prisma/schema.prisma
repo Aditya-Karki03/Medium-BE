@@ -21,6 +21,7 @@ model User{
   password String
   posts Post[]
   likes LikedPost[]
+  bookmarks bookMarkedPost[]
 }
 
 model Post{
@@ -30,10 +31,12 @@ model Post{
   date String 
   published Boolean @default(false)
   likedByCurrentUser Boolean @default(false)
+  bookmarkedByCurrentUser Boolean @default(false)
   author User @relation(fields: [authorId], references: [id])
   authorId Int
   NumberOfLikes Int @default(0)
   likes LikedPost[]
+  PostsBookMarked bookMarkedPost[]
 }
 
 model LikedPost{
@@ -43,4 +46,13 @@ model LikedPost{
   LikesOnWhichPost Post @relation(fields:[PostId],references: [id])
   PostId Int
   @@unique([LikedById,PostId])
+  
+}
+
+model bookMarkedPost{
+  id Int @id @default(autoincrement())
+  BookMarkedByAuthor User @relation(fields: [BookMarkerId], references: [id])
+  BookMarkerId Int
+  BookMarkedPost Post @relation(fields: [BookMarkedPostId], references: [id])
+  BookMarkedPostId Int
 }

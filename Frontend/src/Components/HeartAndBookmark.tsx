@@ -6,23 +6,24 @@ import { useState } from "react";
 interface HeartAndBookMarkTypes{
     id:string,
     authorId:string,
-    userHasLiked:Boolean
+    userHasLiked:Boolean,
+    userHasBookMarked:Boolean
 }
 
 
 
-export default function HeartAndBookmark({id,authorId,userHasLiked=false}:HeartAndBookMarkTypes){
-    const[bookmarkColor,setBookmarkColor]=useState('text-slate-200')
+export default function HeartAndBookmark({id,authorId,userHasLiked=false,userHasBookMarked=false}:HeartAndBookMarkTypes){
+    const[bookmarkColor,setBookmarkColor]=useState(userHasBookMarked)
     const[liked,setLiked]=useState(userHasLiked)
 
     // if(!userHasLiked){
-    //     setLikeColorByUser()
+    //     setLikeColorByUser() 
     // }
-    console.log(userHasLiked)
+    // console.log(userHasBookMarked)
 
 
-    async function handlePostRequest(){
-        await axios.post(`${BACKEND_URL}api/v1/user/blog/likes`,{
+    async function handlePostRequest(whichRequest:string){
+        await axios.post(`${BACKEND_URL}api/v1/user/blog/${whichRequest}`,{
              postId:id,
              authorId,
          },{
@@ -35,23 +36,19 @@ export default function HeartAndBookmark({id,authorId,userHasLiked=false}:HeartA
      
      
      function handleLike(){
-        
         setLiked((prev)=>!prev)
-         handlePostRequest()
+         handlePostRequest('likes')
      }
+
      function handleBookmark(){
-         if(bookmarkColor=='text-slate-200'){
-             setBookmarkColor('text-black')
-         }
-         else{
-             setBookmarkColor('text-slate-200')
-         }
+         setBookmarkColor(prev=>!prev)
+         handlePostRequest('bookmarks')
      }
  
     return(
         <div className="flex flex-col gap-2">
                     <FaHeart onClick={handleLike} className={`${liked?'text-red-500':'text-slate-200'} hover:text-red-500 cursor-pointer`}  />
-                    <FaBookmark onClick={handleBookmark} className={`${bookmarkColor} hover:text-black cursor-pointer`}/>
+                    <FaBookmark onClick={handleBookmark} className={`${bookmarkColor?'text-black':'text-slate-200'} hover:text-black cursor-pointer`}/>
         </div>
     )
 }
