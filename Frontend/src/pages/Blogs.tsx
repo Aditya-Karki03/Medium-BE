@@ -12,6 +12,7 @@ export interface BlogType{
             "title": string,
             "content": string,
             "date": string,
+            'likedByCurrentUser':boolean
             "author": {
                 "id":string
                 "firstname": string,
@@ -38,14 +39,14 @@ export default function Blogs(){
             <Skeleton/>
         )
     }
-
+    console.log(blogs)
     
     return(
         <div className="">
             <AppBar publishABlog={true}/>
             {
                 blogs && blogs.map((blog:BlogType)=>
-                  <BlogCard key={blog.id}  authorId={blog.author.id} id={blog.id} firstname={blog.author.firstname} lastname={blog.author.lastname} date={blog.date} title={blog.title} content={blog.content}/>
+                  <BlogCard key={blog.id}  authorId={blog.author.id} id={blog.id} CurrentUserHasLiked={blog.likedByCurrentUser} firstname={blog.author.firstname} lastname={blog.author.lastname} date={blog.date} title={blog.title} content={blog.content}/>
                 )
             }
            

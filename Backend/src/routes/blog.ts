@@ -121,7 +121,7 @@ blogRouter.post('/likes',async(c)=>{
     const prisma = new PrismaClient({
         datasourceUrl:c.env.DATABASE_URL
     }).$extends(withAccelerate())
-    const{likeColor,postId,authorId}=await c.req.json()
+    const{postId,authorId}=await c.req.json()
     console.log(`${postId} ${authorId}`)
     try {
        
@@ -140,12 +140,13 @@ blogRouter.post('/likes',async(c)=>{
                 })
                 await prisma.post.update({
                     where:{
-                        id:Number(userWithLikeOnSamePostExist.id),
+                        id:Number(userWithLikeOnSamePostExist.PostId),
                     },
                     data:{
                         NumberOfLikes:{
                             decrement:1
-                        }
+                        },
+                        likedByCurrentUser:false
                     }
                 })
             }
@@ -163,7 +164,8 @@ blogRouter.post('/likes',async(c)=>{
                     data:{
                         NumberOfLikes:{
                             increment:1
-                        }
+                        },
+                        likedByCurrentUser:true
                     }
                 })
             }
@@ -195,6 +197,7 @@ blogRouter.get('/bulk',async(c)=>{
                 title:true,
                 content:true,
                 date:true,
+                likedByCurrentUser:true,
                 NumberOfLikes:true,
                 author:{
                     select:{

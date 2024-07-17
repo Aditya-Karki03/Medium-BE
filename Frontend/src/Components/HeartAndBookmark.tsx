@@ -6,22 +6,23 @@ import { useState } from "react";
 interface HeartAndBookMarkTypes{
     id:string,
     authorId:string,
-    postId:string,
-    LikedById:string
+    userHasLiked:Boolean
 }
 
 
 
-export default function HeartAndBookmark({id,authorId,LikedById,postId}:HeartAndBookMarkTypes){
-    const[likeColor,setLikeColor]=useState('text-slate-200')
+export default function HeartAndBookmark({id,authorId,userHasLiked=false}:HeartAndBookMarkTypes){
     const[bookmarkColor,setBookmarkColor]=useState('text-slate-200')
+    const[liked,setLiked]=useState(userHasLiked)
 
-
+    // if(!userHasLiked){
+    //     setLikeColorByUser()
+    // }
+    console.log(userHasLiked)
 
 
     async function handlePostRequest(){
         await axios.post(`${BACKEND_URL}api/v1/user/blog/likes`,{
-             likeColor,
              postId:id,
              authorId,
          },{
@@ -30,14 +31,12 @@ export default function HeartAndBookmark({id,authorId,LikedById,postId}:HeartAnd
              }
          })
      }
+
+     
      
      function handleLike(){
-         if(likeColor=='text-red-500'){
-             setLikeColor('text-slate-200')
-         }
-         else{
-             setLikeColor('text-red-500')
-         }
+        
+        setLiked((prev)=>!prev)
          handlePostRequest()
      }
      function handleBookmark(){
@@ -51,7 +50,7 @@ export default function HeartAndBookmark({id,authorId,LikedById,postId}:HeartAnd
  
     return(
         <div className="flex flex-col gap-2">
-                    <FaHeart onClick={handleLike} className={`${LikedById==authorId && postId==id?'text-red-500':'text-slate-200'} hover:text-red-500 cursor-pointer`}  />
+                    <FaHeart onClick={handleLike} className={`${liked?'text-red-500':'text-slate-200'} hover:text-red-500 cursor-pointer`}  />
                     <FaBookmark onClick={handleBookmark} className={`${bookmarkColor} hover:text-black cursor-pointer`}/>
         </div>
     )

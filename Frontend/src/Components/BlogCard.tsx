@@ -6,6 +6,7 @@ import UseLikeImporter from "../Hooks/UseLikeImporter";
 interface PropsTypes{
     id:string,
     authorId:string,
+    CurrentUserHasLiked:boolean,
     firstname:string,
     lastname:string,
     date:string,
@@ -18,11 +19,11 @@ interface likeType{
     PostId:string
 }
 
-export default function BlogCard({id,authorId,firstname,lastname,date,title,content}:PropsTypes){
+export default function BlogCard({id,authorId,CurrentUserHasLiked,firstname,lastname,date,title,content}:PropsTypes){
     //need name of the blog writer
 
     const {likes}=UseLikeImporter()
-    console.log(likes)
+    // console.log(CurrentUserHasLiked)
 
     return(
             <div  className="flex justify-center  items-center">
@@ -43,13 +44,7 @@ export default function BlogCard({id,authorId,firstname,lastname,date,title,cont
                 
                     </div>
                  </Link>
-                {
-                    likes && likes.map((like:likeType)=>{
-                        return(
-                            <HeartAndBookmark key={like.id} LikedById={like.LikedById} postId={like.PostId} id={id} authorId={authorId}/>
-                        )
-                    })
-                }     
+                 <HeartAndBookmark userHasLiked={CurrentUserHasLiked} id={id} authorId={authorId}/>       
 
             </div>
             )
