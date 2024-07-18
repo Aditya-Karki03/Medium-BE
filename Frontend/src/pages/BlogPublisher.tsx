@@ -4,6 +4,7 @@ import { useState } from "react";
 import { BACKEND_URL } from "../config";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
+import { useNavigate } from "react-router-dom";
 
 interface responseObj{
     id:string
@@ -12,6 +13,11 @@ interface responseObj{
 export default function BlogPublisher(){
     const[title,setTitle]=useState('');
     const[content,setContent]=useState('')
+    const navigate=useNavigate()
+    console.log(localStorage.getItem('token'))
+    if(localStorage.getItem('token')===null){
+        navigate('/signin')
+    }
     async function handlePublish(){
         const id=toast.loading('We are publishing it! Please Hold Tight!',{
             position: "top-center",

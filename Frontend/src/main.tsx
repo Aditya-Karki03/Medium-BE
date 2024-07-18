@@ -13,6 +13,7 @@ import appStore from './utils/appstore.ts'
 import Profile from './Components/Profile.tsx'
 import Bookmarks from './Components/Bookmarks.tsx'
 import LikedPost from './Components/LikedPost.tsx'
+import Protected from './Components/ProtectedRoute.tsx'
 
 const routes=createBrowserRouter([
   {
@@ -29,32 +30,32 @@ const routes=createBrowserRouter([
   },
   {
     path:'/user/profile',
-    element:<Profile/>
+    element:<Protected Props={Profile}/>
   },
   {
     path:'/user/bookmarks',
-    element:<Bookmarks/>
+    element:<Protected Props={Bookmarks}/>
   },
   {
     path:'/blogs/bulk',
-    element:<Blogs/>,
+    element:<Protected Props={Blogs}/>,
     
   },
   {
     path:'/user/likedPost',
-    element:<LikedPost/>
+    element:<Protected Props={LikedPost}/>
   },
   {
     path:'/blogs/createBlog',
-    element:<BlogPublisher/>
+    element:<Protected Props={BlogPublisher}/>
   },
   {
     path:'/blogs/fullblog/:id',
-    element:<FullBlog/>
+    element:<Protected Props={FullBlog}/>
   },
   {
     path:'/blog/:id',
-    element:<Blog/>
+    element:<Protected Props={Blog}/>
   },
 ])
 
