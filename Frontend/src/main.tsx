@@ -10,6 +10,9 @@ import Blog from './pages/Blog.tsx'
 import BlogPublisher from './pages/BlogPublisher.tsx'
 import FullBlog from './Components/FullBlog.tsx'
 import appStore from './utils/appstore.ts'
+import Profile from './Components/Profile.tsx'
+import Bookmarks from './Components/Bookmarks.tsx'
+import LikedPost from './Components/LikedPost.tsx'
 
 const routes=createBrowserRouter([
   {
@@ -25,9 +28,21 @@ const routes=createBrowserRouter([
     element:<Signin/>
   },
   {
+    path:'/user/profile',
+    element:<Profile/>
+  },
+  {
+    path:'/user/bookmarks',
+    element:<Bookmarks/>
+  },
+  {
     path:'/blogs/bulk',
     element:<Blogs/>,
     
+  },
+  {
+    path:'/user/likedPost',
+    element:<LikedPost/>
   },
   {
     path:'/blogs/createBlog',

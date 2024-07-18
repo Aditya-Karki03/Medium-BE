@@ -4,7 +4,7 @@ import axios from "axios";
 import { useState } from "react";
 
 interface HeartAndBookMarkTypes{
-    id:string,
+    id:string | number,
     authorId:string,
     userHasLiked:Boolean,
     userHasBookMarked:Boolean
@@ -16,10 +16,7 @@ export default function HeartAndBookmark({id,authorId,userHasLiked=false,userHas
     const[bookmarkColor,setBookmarkColor]=useState(userHasBookMarked)
     const[liked,setLiked]=useState(userHasLiked)
 
-    // if(!userHasLiked){
-    //     setLikeColorByUser() 
-    // }
-    // console.log(userHasBookMarked)
+
 
 
     async function handlePostRequest(whichRequest:string){

@@ -40,7 +40,7 @@ export default function Blogs(){
             <Skeleton/>
         )
     }
-    // console.log(blogs[0].bookmarkedByCurrentUser)
+    console.log(blogs)
     
     return(
         <div className="">

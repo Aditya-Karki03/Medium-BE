@@ -282,6 +282,83 @@ blogRouter.get('/bulk',async(c)=>{
         c.text('Unable to fetch data!! Please try again!')
     }
 })
+blogRouter.get('/userInfo',async(c)=>{
+    const prisma=new PrismaClient({
+        datasourceUrl:c.env.DATABASE_URL
+    }).$extends(withAccelerate())
+    const userId=c.get('userId')
+    try {
+          const userInfo=await prisma.user.findFirst({
+            select:{
+                firstname:true,
+                lastname:true,
+                email:true,
+                likes:true,
+                bookmarks:true   
+            },
+            where:{
+                id:Number(userId)
+            }
+          })
+          return c.json({
+            data:userInfo
+          })
+    } catch (error) {
+        return c.json({
+            msg:'Unforseen Error!! Please try again'
+        })
+    }
+})
+
+blogRouter.get('/bookmarks',async(c)=>{
+    const prisma=new PrismaClient({
+        datasourceUrl:c.env.DATABASE_URL
+    }).$extends(withAccelerate())
+
+    const userId=c.get('userId');
+    
+    
+    try {
+        const bookmarkedPosts=await prisma.post.findMany({
+            
+            where:{
+                authorId:Number(userId),
+                bookmarkedByCurrentUser:true
+            }
+        }) 
+      
+        return c.json({
+            data:bookmarkedPosts
+        }) 
+    } catch (error) {
+        return c.json({
+            msg:'Something went wrong!! Please Try again'
+        })
+    }
+})
+
+blogRouter.get('/likes',async(c)=>{
+    const prisma=new PrismaClient({
+        datasourceUrl:c.env.DATABASE_URL
+    }).$extends(withAccelerate())
+
+    const userId=c.get('userId')
+    try {
+        const likedByUser=await prisma.post.findMany({
+           where:{
+                authorId:Number(userId),
+                likedByCurrentUser:true
+           }
+        })
+        return c.json({
+            data:likedByUser
+        })
+    } catch (error) {
+        return c.json({
+            msg:'Unknown Error!! Please try again!'
+        })
+    }
+})
 
 blogRouter.get('/:id',async(c)=>{
     const id= c.req.param("id");

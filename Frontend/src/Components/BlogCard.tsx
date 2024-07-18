@@ -2,21 +2,21 @@ import { Link } from "react-router-dom"
 import HeartAndBookmark from "./HeartAndBookmark";
 
 
-interface PropsTypes{
-    id:string,
+export interface PropsTypes{
+    id:string | number,
     authorId:string,
     CurrentUserHasLiked:boolean,
     CurrentUserBookMarkedPost:boolean,
-    firstname:string,
-    lastname:string,
     date:string,
     title:string,
     content:string,
+    firstname?:string,
+    lastname?:string,
 }
 
 
-export default function BlogCard({id,authorId,CurrentUserHasLiked,CurrentUserBookMarkedPost,firstname,lastname,date,title,content}:PropsTypes){
-    
+export default function BlogCard({id,authorId,CurrentUserHasLiked,CurrentUserBookMarkedPost,date,title,content,firstname,lastname}:PropsTypes){
+    console.log(CurrentUserHasLiked)
  
     return(
             <div  className="flex justify-center  items-center">
@@ -24,7 +24,9 @@ export default function BlogCard({id,authorId,CurrentUserHasLiked,CurrentUserBoo
                     <div className="flex justify-center mt-16 border-b-2 cursor-pointer px-4 ">
                         <div className="w-[700px] flex flex-col  pb-7">
                             <div className="flex items-center ">
-                                    <div className="h-10 w-10 rounded-full cursor-pointer border flex justify-center items-center">{`${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`}</div>
+                                    {
+                                        firstname && lastname && <div className="h-10 w-10 rounded-full cursor-pointer border flex justify-center items-center">{`${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`}</div>
+                                    }
                                     <div className="h-1 w-1 rounded-full bg-black mx-2"></div>
                                     <div className="">{date}</div>
                             </div>

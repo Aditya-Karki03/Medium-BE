@@ -24,11 +24,7 @@ export default function UseBlogImporter(){
         
     },[])
 
-    // if(id.length>0){
-    //     const filteredBlog=blogs.filter((blog:BlogType)=>blog.id===id)    
-    //     setBlogs(filteredBlog)
-    // }
-
+  
     return({
         loading,
         blogs
