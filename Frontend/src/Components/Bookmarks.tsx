@@ -13,12 +13,13 @@ export default function Bookmarks(){
     if(loading && !bookmarks){
         return <Skeleton/>
     }
-    if(bookmarks?.length==0){
-        return <div className="mt-80 font-mono">You Have Not Bookmarked any Post yet!!</div>
-    }
+    
     return(
         <div className="">
             <AppBar publishABlog={true} />
+            {
+                bookmarks?.length==0 && <div className="mt-80 font-mono flex w-screen justify-center">You Have Not Bookmarked any Post yet!!</div>
+            }
             {
                 bookmarks && bookmarks.map((bookmark:bookmarkType)=>{
                     const{authorId,bookmarkedByCurrentUser,likedByCurrentUser,content,date,id,title}=bookmark.BookMarkedPost                    

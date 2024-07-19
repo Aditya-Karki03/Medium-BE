@@ -26,12 +26,13 @@ export default function LikedPost(){
     if(loading ){
         return <Skeleton/>
     }
-    if(likes?.length==0){
-        return <div className="mt-80 font-mono">You Have Not Liked any Post yet!!</div>
-    }
+    
     return(
     <div className="mt-20">
         <AppBar publishABlog={true}/>
+        {
+            likes?.length==0 && <div className="mt-80 font-mono w-screen flex justify-center">You Have Not Liked any Post yet!!</div>
+        }
         {
                 likes && likes.map((like:likeType)=>{
                     const{authorId,bookmarkedByCurrentUser,content,date,id,likedByCurrentUser,title}=like.LikesOnWhichPost
