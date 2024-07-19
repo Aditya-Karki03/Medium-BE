@@ -31,7 +31,6 @@ export default function UseLikes():returnTypeOfUseLikes{
             }
         })
         .then((res)=>{
-            // console.log(res.data)
             setLikes(res.data.data)
             setLoading(false)
         })

@@ -41,7 +41,7 @@ export interface BlogType{
 // type newDataType=(BlogType | CurrentlyLoggedInUser)
 
 export default function Blogs(){
-    const{loading,blogs,loggedInUser}=UseBlogImporter();
+    const{loading,blogs}=UseBlogImporter();
     // const{likes}=UseLikes()
     // const{bookmarks}=UseBookMarks()
     
@@ -50,16 +50,11 @@ export default function Blogs(){
             <Skeleton/>
         )
     }
-    console.log(blogs)
 
-//     const likedBlogs=blogs.filter((blog)=>)
-
-// console.log(likes)
-//     console.log(bookmarks)
     
     return(
         <div className="">
-            <AppBar publishABlog={true} firstname={loggedInUser.firstname} lastname={loggedInUser.lastname}/>
+            <AppBar publishABlog={true} />
             {
                 
                 blogs && blogs.map((blog:(BlogType))=>{

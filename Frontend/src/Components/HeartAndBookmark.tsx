@@ -17,8 +17,6 @@ export default function HeartAndBookmark({id,authorId,userHasLiked=false,userHas
     const[liked,setLiked]=useState(userHasLiked)
 
 
-    console.log(`${bookmarkColor} ${liked}`)
-
     async function handlePostRequest(whichRequest:string){
         await axios.post(`${BACKEND_URL}api/v1/user/blog/${whichRequest}`,{
              postId:id,

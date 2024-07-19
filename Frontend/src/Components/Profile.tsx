@@ -10,7 +10,6 @@ import ProfileSkeleton from "../Components/ProfileSkeleton";
 
 export default function Profile(){
     const{userInfo,loading}=UseUserInfo()
-    // console.log(loading)
     
     if(loading){
         return <ProfileSkeleton/>
@@ -20,7 +19,7 @@ export default function Profile(){
     }
  
     const{firstname,lastname,email,bookmarks,likes}=userInfo
-    console.log(likes)
+
     
     return(
         <div className="h-3/4 w-screen">

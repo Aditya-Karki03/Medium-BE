@@ -23,7 +23,7 @@ export default function UseBlogImporter(){
             }
         })
         .then((res)=>{
-            console.log(res.data)
+           
             setLoggedInUser(res.data.loggedInUser)
             setBlogs(res.data.data)
             setLoading(false)
@@ -31,9 +31,7 @@ export default function UseBlogImporter(){
         })
         
     },[])
-    if(loading==false){
-        console.log(loggedInUser)
-    }
+    
   
     return({
         loading,

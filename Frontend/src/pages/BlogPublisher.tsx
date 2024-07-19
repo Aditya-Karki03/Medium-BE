@@ -14,7 +14,6 @@ export default function BlogPublisher(){
     const[title,setTitle]=useState('');
     const[content,setContent]=useState('')
     const navigate=useNavigate()
-    console.log(localStorage.getItem('token'))
     if(localStorage.getItem('token')===null){
         navigate('/signin')
     }
@@ -40,7 +39,6 @@ export default function BlogPublisher(){
                   'authorization': localStorage.getItem('token') || ""
                 }
               });
-              console.log(response)
             if(response.data.id){
                 toast.update(id, { render: "Congratulations! Your Article is Published", type: "success", isLoading: false,autoClose: 5000  })
                

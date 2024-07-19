@@ -61,7 +61,6 @@ signing.post('/signup',async(c)=>{
         return c.text(token)
     } catch (error) {
         c.status(411);
-        console.log(error)
         return c.text('Invalid!! Please try again');
       
     }

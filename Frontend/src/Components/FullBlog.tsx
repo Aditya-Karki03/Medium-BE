@@ -5,21 +5,15 @@ import { useSelector } from "react-redux";
 
 export default function FullBlog ()  {
     const{id}=useParams();
-    console.log(id)
-    // const{loading,blogs}=UseBlogImporter();
-    // const Blog:[]=blogs.filter((blog:BlogType)=>blog.id==id)
     const blogs=useSelector((store:any)=>store.blog)
     const{BlogItems}=blogs;
-    // console.log(BlogItems)
+
     let blog
     if(BlogItems[1].length>0){
         blog=BlogItems[1].filter((blog:any)=>(blog.id==id))
-        console.log(blog)
+       
     }
-    console.log()
-    
-    
-    // console.log(blog)
+   
     
   return(
     <div className="w-full">

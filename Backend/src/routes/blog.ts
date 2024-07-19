@@ -121,8 +121,7 @@ blogRouter.post('/likes',async(c)=>{
         datasourceUrl:c.env.DATABASE_URL
     }).$extends(withAccelerate())
     const{postId}=await c.req.json()
-    // console.log(`${postId} ${authorId}`)
-    const userId=await c.get('userId')
+    const userId= c.get('userId')
     try {
        
             const userWithLikeOnSamePostExist=await prisma.likedPost.findFirst({
@@ -174,7 +173,7 @@ blogRouter.post('/likes',async(c)=>{
             msg:"Post has been successfully liked"
         })
     } catch (error) {
-        console.log('Hello from the error')
+        
         c.status(411);
         return c.json({
             msg:"Could not like post! Please try again"
