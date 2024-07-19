@@ -3,9 +3,6 @@ import AppBar from "./AppBar";
 import BlogCard from "./BlogCard";
 import Skeleton from "./Skeleton";
 import { LikesOrBookMarksOnWhichPostTypes } from "../Hooks/UseLikes";
-import UseBlogImporter from "../Hooks/UseBlogImporter";
-// import { bookmarksAndLikesType } from "../Hooks/UseBookMarks";
-//BlogCard({id,authorId,CurrentUserHasLiked,CurrentUserBookMarkedPost,firstname,lastname,date,title,content}:PropsTypes){
 
 interface bookmarkType{
     BookMarkedPost:LikesOrBookMarksOnWhichPostTypes
