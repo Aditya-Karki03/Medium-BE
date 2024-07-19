@@ -18,9 +18,9 @@ export default function Profile(){
     if(!userInfo){
         return <div className="">User Information Not Available</div>
     }
-    console.log(typeof(userInfo))
+ 
     const{firstname,lastname,email,bookmarks,likes}=userInfo
-    
+    console.log(likes)
     
     return(
         <div className="h-3/4 w-screen">

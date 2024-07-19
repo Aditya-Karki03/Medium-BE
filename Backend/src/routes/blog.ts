@@ -19,10 +19,9 @@ blogRouter.use('/*',async(c,next)=>{
     //verify jwt and pass the authorId down the line
     const token=c.req.header('authorization') || "";
     const user= await verify(token,c.env.SECRET_KEY)
-    console.log(user)
+
     if(user){
         const userData:string=JSON.stringify(user.id) ;
-        console.log(userData)
         c.set('userId',userData)
         await next();
     } else{
@@ -121,14 +120,15 @@ blogRouter.post('/likes',async(c)=>{
     const prisma = new PrismaClient({
         datasourceUrl:c.env.DATABASE_URL
     }).$extends(withAccelerate())
-    const{postId,authorId}=await c.req.json()
-    console.log(`${postId} ${authorId}`)
+    const{postId}=await c.req.json()
+    // console.log(`${postId} ${authorId}`)
+    const userId=await c.get('userId')
     try {
        
             const userWithLikeOnSamePostExist=await prisma.likedPost.findFirst({
                 where:{
                     PostId:Number(postId),
-                    LikedById:Number(authorId)
+                    LikedById:Number(userId)
                 }
             })
 
@@ -153,7 +153,7 @@ blogRouter.post('/likes',async(c)=>{
             else{
                 await prisma.likedPost.create({
                     data:{
-                        LikedById:Number(authorId),
+                        LikedById:Number(userId),
                         PostId:Number(postId)
                     }
                 })
@@ -186,12 +186,12 @@ blogRouter.post('/bookmarks',async(c)=>{
     const prisma=new PrismaClient({
         datasourceUrl:c.env.DATABASE_URL
     }).$extends(withAccelerate())
-    
-    const{authorId,postId}=await c.req.json();
+    const userId=c.get('userId')
+    const{postId}=await c.req.json();
     try {
         const UserHasAlreadyBookMarkedPost=await prisma.bookMarkedPost.findFirst({
             where:{
-                BookMarkerId:Number(authorId),
+                BookMarkerId:Number(userId),
                 BookMarkedPostId:Number(postId)
             }
         })
@@ -213,7 +213,7 @@ blogRouter.post('/bookmarks',async(c)=>{
         }else{
             const createBookMarkedPost=await prisma.bookMarkedPost.create({
                 data:{
-                    BookMarkerId:Number(authorId),
+                    BookMarkerId:Number(userId),
                     BookMarkedPostId:Number(postId)
                 }
             })
@@ -242,6 +242,7 @@ blogRouter.get('/bulk',async(c)=>{
         datasourceUrl:c.env.DATABASE_URL
     }).$extends(withAccelerate())
 
+    const userId=c.get('userId')
     
 
     try {
@@ -265,6 +266,11 @@ blogRouter.get('/bulk',async(c)=>{
                     select:{
                         LikedById:true
                     }
+                },
+                PostsBookMarked:{
+                    select:{
+                        BookMarkerId:true
+                    }
                 }
             },
             where:{
@@ -272,10 +278,64 @@ blogRouter.get('/bulk',async(c)=>{
             }
         });
 
+        const signedInUser=await prisma.user.findFirst({
+            select:{
+                firstname:true,
+                lastname:true
+            }
+            ,where:{
+                id:Number(userId)
+            }
+        })
+
+
+
+            // Trial
+
+            // const newData=await prisma.user.findMany({
+            //     select:{
+            //         posts:{
+            //             select:{
+            //                 id:true,
+            //                 title:true,
+            //                 content:true,
+            //                 date:true,
+            //                 likedByCurrentUser:true,
+            //                 bookmarkedByCurrentUser:true,
+            //                 NumberOfLikes:true,author:{
+            //                     select:{
+            //                         id:true,
+            //                         firstname:true,
+            //                         lastname:true
+            //                     }
+            //                 },
+            //                 likes:{
+            //                     select:{
+            //                         LikedById:true
+            //                     }
+            //                 },
+            //             },
+            //             where:{
+            //                 published:true
+            //             }
+            //         }
+            //     },
+            //     where:{
+            //         id:Number(userId)
+            //     }
+            // })
+            const dataWithUserId = allData.map((data) => {
+                return {
+                    ...data,
+                    currentlyLoggedInUser: userId
+                };
+            });
             
-        
+            
+        // const dataWithUserId=[...allData,{currentlyLoggedInUser:userId}]
         return c.json({
-            data:allData
+            data:dataWithUserId,
+            loggedInUser:signedInUser
         })
     } catch (error) {
         c.status(404);
@@ -319,11 +379,21 @@ blogRouter.get('/bookmarks',async(c)=>{
     
     
     try {
-        const bookmarkedPosts=await prisma.post.findMany({
-            
+        const bookmarkedPosts=await prisma.bookMarkedPost.findMany({
+            select:{
+                BookMarkedPost:{
+                    select:{
+                        id:true,
+                        authorId:true,
+                        bookmarkedByCurrentUser:true,
+                        date:true,
+                        title:true,
+                        content:true
+                    }
+                }
+            },
             where:{
-                authorId:Number(userId),
-                bookmarkedByCurrentUser:true
+                BookMarkerId:Number(userId)
             }
         }) 
       
@@ -344,12 +414,55 @@ blogRouter.get('/likes',async(c)=>{
 
     const userId=c.get('userId')
     try {
-        const likedByUser=await prisma.post.findMany({
-           where:{
-                authorId:Number(userId),
-                likedByCurrentUser:true
-           }
+        // const likedByUser=await prisma.post.findMany({
+        //     // where:{
+        //     //      authorId:Number(userId),
+        //     //      likedByCurrentUser:true
+        //     // }
+        //     select:{
+        //         likes:{
+        //             where:{
+        //                 LikedById:Number(userId)
+        //             }
+        //         },
+                
+        //     }
+        //  })
+        const likedByUser=await prisma.likedPost.findMany({
+            select:{
+                LikesOnWhichPost:{
+                    select:{
+                        id:true,
+                        authorId:true,
+                        likedByCurrentUser:true,
+                        date:true,
+                        title:true,
+                        content:true
+                    }
+                
+                },
+                
+            },
+            where:{
+                LikedById:Number(userId)
+            }
+        //    where:{
+        //         authorId:Number(userId),
+        //         likedByCurrentUser:true
+        //    }
         })
+
+
+        // const likedByUser=await prisma.post.findMany({
+        //     where:{
+        //         likes:{
+        //             some:{
+        //                 LikedById:Number(userId)
+        //             }
+
+        //         }
+        //     }
+        // })
         return c.json({
             data:likedByUser
         })

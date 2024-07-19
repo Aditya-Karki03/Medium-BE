@@ -4,9 +4,15 @@ import { addBlog } from "../utils/blogSlice";
 import axios from 'axios'
 import { BACKEND_URL } from "../config";
 
+interface loggedInUserType{
+    firstname:string,
+    lastname:string
+}
+
 export default function UseBlogImporter(){
     const[loading,setLoading]=useState(true)
     const[blogs,setBlogs]=useState([])
+    const[loggedInUser,setLoggedInUser]=useState<loggedInUserType | ''>('');
     const dispatch=useDispatch()
 
    
@@ -17,16 +23,21 @@ export default function UseBlogImporter(){
             }
         })
         .then((res)=>{
+            console.log(res.data)
+            setLoggedInUser(res.data.loggedInUser)
             setBlogs(res.data.data)
             setLoading(false)
             dispatch(addBlog(res.data.data))
         })
         
     },[])
-
+    if(loading==false){
+        console.log(loggedInUser)
+    }
   
     return({
         loading,
-        blogs
+        blogs,
+        loggedInUser
     })
 }

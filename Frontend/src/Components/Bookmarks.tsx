@@ -2,8 +2,14 @@ import UseBookMarks from "../Hooks/UseBookMarks";
 import AppBar from "./AppBar";
 import BlogCard from "./BlogCard";
 import Skeleton from "./Skeleton";
-import { bookmarksAndLikesType } from "../Hooks/UseBookMarks";
+import { LikesOrBookMarksOnWhichPostTypes } from "../Hooks/UseLikes";
+import UseBlogImporter from "../Hooks/UseBlogImporter";
+// import { bookmarksAndLikesType } from "../Hooks/UseBookMarks";
 //BlogCard({id,authorId,CurrentUserHasLiked,CurrentUserBookMarkedPost,firstname,lastname,date,title,content}:PropsTypes){
+
+interface bookmarkType{
+    BookMarkedPost:LikesOrBookMarksOnWhichPostTypes
+}
 
 export default function Bookmarks(){
     const{loading,bookmarks}=UseBookMarks()
@@ -13,11 +19,17 @@ export default function Bookmarks(){
     
     return(
         <div className="">
-            <AppBar publishABlog={true}/>
+            <AppBar publishABlog={true} />
             {
-                bookmarks && bookmarks.map((bookmark:bookmarksAndLikesType)=>
+                bookmarks && bookmarks.map((bookmark:bookmarkType)=>{
+                    const{authorId,bookmarkedByCurrentUser,likedByCurrentUser,content,date,id,title}=bookmark.BookMarkedPost                    
                     
-                    <BlogCard key={bookmark.id} id={bookmark.id} authorId={bookmark.authorId} CurrentUserHasLiked={bookmark.likedByCurrentUser} CurrentUserBookMarkedPost={bookmark.bookmarkedByCurrentUser}  date={bookmark.date} title={bookmark.title} content={bookmark.content}/>
+                    return(
+                        <BlogCard key={id} id={id} authorId={JSON.stringify(authorId)} CurrentUserHasLiked={likedByCurrentUser} CurrentUserBookMarkedPost={bookmarkedByCurrentUser}  date={date} title={title} content={content}/>
+                    )
+                }
+                    
+                   
                 )
             }
         </div>

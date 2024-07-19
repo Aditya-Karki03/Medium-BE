@@ -16,8 +16,8 @@ export interface PropsTypes{
 
 
 export default function BlogCard({id,authorId,CurrentUserHasLiked,CurrentUserBookMarkedPost,date,title,content,firstname,lastname}:PropsTypes){
-    console.log(CurrentUserHasLiked)
- 
+    
+//  console.log(content)
     return(
             <div  className="flex justify-center  items-center">
                 <Link  to={`/blogs/fullblog/${id}`}>
@@ -33,7 +33,7 @@ export default function BlogCard({id,authorId,CurrentUserHasLiked,CurrentUserBoo
                             <div className="text-2xl font-extrabold mt-2">
                                 {title}
                             </div>
-                            <div className="font-extralight mt-2">{`${content.substring(0,100)}...`}</div>
+                            <div className="font-extralight mt-2">{`${content && content.length>99?content.substring(0,100):content}...`}</div>
                             <div className="text-sm font-light text-gray-600 mt-2">{`${Math.round(content.length/100)} minute read`}</div>
                         </div>
                 

@@ -1,16 +1,28 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-import { bookmarksAndLikesType } from "./UseBookMarks";
+
+export interface LikesOrBookMarksOnWhichPostTypes{
+    authorId:number,
+    bookmarkedByCurrentUser:boolean,
+    content:string,
+    date:string,
+    id:number,
+    likedByCurrentUser:boolean,
+    title:string
+}
+interface likeType {
+    LikesOnWhichPost: LikesOrBookMarksOnWhichPostTypes;
+}
 
 interface returnTypeOfUseLikes{
-    loading:Boolean,
-    likes:bookmarksAndLikesType[] | null
+    loading:boolean,
+    likes:likeType[] | null
 }
 
 export default function UseLikes():returnTypeOfUseLikes{
     const[loading,setLoading]=useState(true)
-    const[likes,setLikes]=useState<bookmarksAndLikesType[]| null>(null)
+    const[likes,setLikes]=useState<likeType[]| null>(null)
 
     useEffect(()=>{
         axios.get(`${BACKEND_URL}api/v1/user/blog/likes`,{
@@ -19,7 +31,7 @@ export default function UseLikes():returnTypeOfUseLikes{
             }
         })
         .then((res)=>{
-            console.log(res.data.data)
+            // console.log(res.data)
             setLikes(res.data.data)
             setLoading(false)
         })
