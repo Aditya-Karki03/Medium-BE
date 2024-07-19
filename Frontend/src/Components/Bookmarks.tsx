@@ -13,7 +13,9 @@ export default function Bookmarks(){
     if(loading && !bookmarks){
         return <Skeleton/>
     }
-    
+    if(bookmarks?.length==0){
+        return <div className="mt-80 font-mono">You Have Not Bookmarked any Post yet!!</div>
+    }
     return(
         <div className="">
             <AppBar publishABlog={true} />

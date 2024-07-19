@@ -26,7 +26,9 @@ export default function LikedPost(){
     if(loading ){
         return <Skeleton/>
     }
-    console.log(likes)
+    if(likes?.length==0){
+        return <div className="mt-80 font-mono">You Have Not Liked any Post yet!!</div>
+    }
     return(
     <div className="mt-20">
         <AppBar publishABlog={true}/>
