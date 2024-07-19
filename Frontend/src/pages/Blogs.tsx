@@ -42,8 +42,7 @@ export interface BlogType{
 
 export default function Blogs(){
     const{loading,blogs}=UseBlogImporter();
-    // const{likes}=UseLikes()
-    // const{bookmarks}=UseBookMarks()
+    
     
     if(loading){
         return(

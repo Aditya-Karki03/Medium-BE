@@ -26,7 +26,6 @@ export default function AppBar({publishABlog=true}:{publishABlog:Boolean}){
     if(loading){
         <Skeleton/>
     }
-    // console.log(loggedInUser.firstname)
 
     return(
         <div className="flex fixed z-20 top-0 left-0 bg-white w-full justify-between px-4 h-12 items-center shadow-sm ">

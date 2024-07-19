@@ -17,7 +17,6 @@ export interface PropsTypes{
 
 export default function BlogCard({id,authorId,CurrentUserHasLiked,CurrentUserBookMarkedPost,date,title,content,firstname,lastname}:PropsTypes){
     
-//  console.log(content)
     return(
             <div  className="flex justify-center  items-center">
                 <Link  to={`/blogs/fullblog/${id}`}>

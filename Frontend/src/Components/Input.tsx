@@ -72,7 +72,6 @@ export default function Input({type}:typeOfProps){
                     lastname:postReq.lastname,
                     password:postReq.password
                 })
-                console.log(response)
                 toast.update(id, { render: "All is good", type: "success", isLoading: false,autoClose: 5000});
                 localStorage.setItem('token',response.data)
                 navigate('/blogs/bulk')

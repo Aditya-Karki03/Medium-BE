@@ -23,14 +23,13 @@ interface likeType {
 
 export default function LikedPost(){
     const{loading,likes}=UseLikes()
-    const{}
     if(loading ){
         return <Skeleton/>
     }
     console.log(likes)
     return(
     <div className="mt-20">
-        <AppBar publishABlog={true} firstname={}/>
+        <AppBar publishABlog={true}/>
         {
                 likes && likes.map((like:likeType)=>{
                     const{authorId,bookmarkedByCurrentUser,content,date,id,likedByCurrentUser,title}=like.LikesOnWhichPost
