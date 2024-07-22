@@ -29,7 +29,7 @@ export default function AppBar({publishABlog=true}:{publishABlog:Boolean}){
 
     return(
         <div className="flex fixed z-20 top-0 left-0 bg-white w-full justify-between px-4 h-12 items-center shadow-sm ">
-            <Link to={'/blogs/bulk'}><p className="font-extrabold text-xl cursor-pointer">Medium</p></Link>
+            <Link to={'/blogs/bulk'}><p className="font-extrabold text-xl cursor-pointer">WordCraft</p></Link>
             <div className="flex gap-4 items-center">
                 {
                     publishABlog && <button onClick={()=>{navigate('/blogs/createBlog')}} className="bg-green-700 text-sm text-white px-2 rounded-lg h-8 hover:bg-green-800">Publish A Blog</button>
